@@ -72,9 +72,18 @@ BIRD = [
     pygame.image.load(os.path.join(IMG_DIR, "Bird/Bird2.png")),
 ]
 
+ZOMBIE = [
+    pygame.image.load(os.path.join(IMG_DIR, "Zombies/zombie1.png")),
+    pygame.image.load(os.path.join(IMG_DIR, "Zombies/zombie3.png")),
+]
+
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
+
+MY_SUN = pygame.image.load(os.path.join(IMG_DIR, 'Other/MySun.png'))
+MY_CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/MyCloud.png'))
+KIRBY = pygame.image.load(os.path.join(IMG_DIR, 'Kirby/kirby2.gif'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 

@@ -1,7 +1,7 @@
 import pygame
 
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
-from dino_runner.utils.constants import BG, CLOUD, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, CLOUD, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 from dino_runner.components.dinosaur import Dinosaur 
 
 class Game:
@@ -17,6 +17,10 @@ class Game:
         self.y_pos_bg = 375
         self.x_pos_cloud = SCREEN_WIDTH
         self.y_pos_cloud = 100
+        self.x_pos_mycloud = SCREEN_WIDTH
+        self.y_pos_mycloud = 0
+        self.x_pos_mysun = SCREEN_WIDTH
+        self.y_pos_mysun =  40
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
 
@@ -44,6 +48,8 @@ class Game:
         self.screen.fill((255, 255, 255))
         self.draw_background()
         self.draw_cloud()
+        self.draw_mycloud()
+        self.draw_mysun()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         pygame.display.update()
@@ -65,4 +71,23 @@ class Game:
         if self.x_pos_cloud + cloud_width <= 0:
             self.screen.blit(CLOUD,(cloud_width + self.x_pos_cloud, self.y_pos_cloud))
             self.x_pos_cloud = SCREEN_WIDTH
-        self.x_pos_cloud -= self.game_speed
+        self.x_pos_cloud -= self.game_speed / 3
+ 
+    def draw_mycloud(self):
+        mycloud_width = MY_CLOUD.get_width()
+        self.screen.blit(MY_CLOUD, (self.x_pos_mycloud, self.y_pos_mycloud))
+        self.screen.blit(MY_CLOUD, (mycloud_width + self.x_pos_mycloud, self.y_pos_mycloud))
+        if self.x_pos_mycloud + mycloud_width <= 0:
+            self.screen.blit(MY_CLOUD,(mycloud_width + self.x_pos_mycloud, self.y_pos_mycloud))
+            self.x_pos_mycloud = SCREEN_WIDTH
+        self.x_pos_mycloud -= self.game_speed / 2
+
+
+    def draw_mysun(self):
+        self.screen.blit(MY_SUN, (self.x_pos_mysun, self.y_pos_mysun))
+        self.x_pos_mysun -= self.game_speed / 8
+ 
+    # Si el sol sale de la pantalla por la izquierda, lo reiniciamos en el lado derecho
+        if self.x_pos_mysun <= -MY_SUN.get_width():
+         self.x_pos_mysun = SCREEN_WIDTH
+

@@ -31,7 +31,7 @@ class Dinosaur(Sprite):
         self.image = DUCKING_HORN[0] if self.step_index < 5 else DUCKING_HORN[1]
         self.rect = self.image.get_rect()
         self.rect.x = 80
-        self.rect.y = 290
+        self.rect.y = 335
         self.step_index += 1
 
     def jump(self):
