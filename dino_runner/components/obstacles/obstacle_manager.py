@@ -12,7 +12,7 @@ class ObstacleManager:
 
     def update(self, game):
         if len(self.obstacles) == 0:
-            obstacle_type = randint(0, 2)  # 0: Cactus, 1: Bird, 2: Gif obstacle
+            obstacle_type = randint(0, 2)  ##0=Cactus, 1=Bird, 2=zombie
             if obstacle_type == 0:
                 self.obstacles.append(Cactus(SMALL_CACTUS))
             elif obstacle_type == 1:
@@ -25,8 +25,12 @@ class ObstacleManager:
             if game.player.rect.colliderect(obstacle.rect):
                 pygame.time.delay(500)
                 game.playing = False
+                game.death_count += 1
                 break
             
     def draw(self, screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+
+    def reset_obstacles(self):
+        self.obstacles = []

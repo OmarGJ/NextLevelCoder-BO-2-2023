@@ -1,8 +1,10 @@
 import pygame
 
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
-from dino_runner.utils.constants import BG, CLOUD, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, CLOUD, COLORS, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, COLORS, RUNNING 
 from dino_runner.components.dinosaur import Dinosaur 
+from dino_runner.components.text_utils import TextUtils
+
 
 class Game:
     def __init__(self):
@@ -21,8 +23,18 @@ class Game:
         self.y_pos_mycloud = 0
         self.x_pos_mysun = SCREEN_WIDTH
         self.y_pos_mysun =  40
+        self.points = 0
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.text_utils = TextUtils()
+        self.game_running = True
+        self.death_count = 0
+    
+    def execute(self):
+        while self.game_running:
+            if not self.playing:
+                self.show_menu()
+            ##self.run() 
 
     def run(self):
         # Game loop: events - update - draw
@@ -31,7 +43,6 @@ class Game:
             self.events()
             self.update()
             self.draw() 
-        pygame.quit()
 
     def events(self):
         for event in pygame.event.get():
@@ -50,6 +61,7 @@ class Game:
         self.draw_cloud()
         self.draw_mycloud()
         self.draw_mysun()
+        self.score()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         pygame.display.update()
@@ -87,7 +99,48 @@ class Game:
         self.screen.blit(MY_SUN, (self.x_pos_mysun, self.y_pos_mysun))
         self.x_pos_mysun -= self.game_speed / 8
  
-    # Si el sol sale de la pantalla por la izquierda, lo reiniciamos en el lado derecho
+    ##Si el sol sale de la pantalla por la izquierda, reinicia en el lado derecho
         if self.x_pos_mysun <= -MY_SUN.get_width():
          self.x_pos_mysun = SCREEN_WIDTH
 
+    
+    def score(self):
+        self.points +=1
+        text, text_rect = self.text_utils.get_score_element(self.points)
+        self.screen.blit(text, text_rect)
+
+    def show_menu(self):
+        self.game_running = True
+        self.screen.fill(COLORS['white'])
+        self.print_menu_elements()
+
+        pygame.display.update()
+        self.handle_key_event_on_menu()
+
+    def print_menu_elements(self):
+        half_screen_height = SCREEN_HEIGHT //2
+        half_screen_width = SCREEN_WIDTH //2
+
+
+        if self.death_count == 0:
+            text, text_rect = self.text_utils.get_centered_message('Press Any key to start')
+            self.screen.blit(text, text_rect)
+
+        elif self.death_count > 0:
+            score, score_rect = self.text_utils.get_centered_message('Your Score: ' + str(self.points), height= half_screen_height +50)
+            death, death_rect = self.text_utils.get_centered_message('Death count: ' + str(self.death_count), height= half_screen_height +100)
+
+            self.screen.blit(score, score_rect)
+            self.screen.blit(death, death_rect)
+        self.screen.blit(RUNNING[0], (half_screen_width - 20, half_screen_height -140))
+
+    def handle_key_event_on_menu(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.game_running = False
+                self.playing = False
+                pygame.display.quit()
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                self.run()
