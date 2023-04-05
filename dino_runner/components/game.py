@@ -1,13 +1,14 @@
 import pygame
-
+import pygame.mixer 
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
-from dino_runner.utils.constants import BG, CLOUD, COLORS, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, COLORS, RUNNING 
+from dino_runner.utils.constants import BG, CLOUD, COLORS, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, COLORS, RUNNING, OST_MENU, OST_GAME
 from dino_runner.components.dinosaur import Dinosaur 
 from dino_runner.components.text_utils import TextUtils
 
 
 class Game:
     def __init__(self):
+        pygame.mixer.init()
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
@@ -29,20 +30,33 @@ class Game:
         self.text_utils = TextUtils()
         self.game_running = True
         self.death_count = 0
-    
+        self.menu = True
+
     def execute(self):
         while self.game_running:
+            if self.menu:
+                OST_MENU.play(-1)
+            else:
+                OST_MENU.stop() 
+
             if not self.playing:
                 self.show_menu()
+            else:
+                OST_GAME.play(-1)
             ##self.run() 
 
     def run(self):
+        self.menu = True
+        OST_MENU.stop()
+        OST_GAME.play(-1)
         # Game loop: events - update - draw
         self.playing = True
         while self.playing:
             self.events()
             self.update()
             self.draw() 
+        OST_GAME.stop()
+        OST_MENU.play(-1)
 
     def events(self):
         for event in pygame.event.get():
@@ -97,7 +111,7 @@ class Game:
 
     def draw_mysun(self):
         self.screen.blit(MY_SUN, (self.x_pos_mysun, self.y_pos_mysun))
-        self.x_pos_mysun -= self.game_speed / 8
+        self.x_pos_mysun -= self.game_speed / 10
  
     ##Si el sol sale de la pantalla por la izquierda, reinicia en el lado derecho
         if self.x_pos_mysun <= -MY_SUN.get_width():
@@ -111,9 +125,9 @@ class Game:
 
     def show_menu(self):
         self.game_running = True
-        self.screen.fill(COLORS['white'])
+        self.screen.fill(COLORS['blue'])
         self.print_menu_elements()
-
+    
         pygame.display.update()
         self.handle_key_event_on_menu()
 

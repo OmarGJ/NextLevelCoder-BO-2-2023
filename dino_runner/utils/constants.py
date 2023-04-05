@@ -1,12 +1,16 @@
 import pygame
 import os
-
+import pygame.mixer 
+pygame.mixer.init()
 # Global Constants
+
+
 TITLE = "Chrome Dino Runner"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
+SOUND_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
 # Assets Constants
 ICON = pygame.image.load(os.path.join(IMG_DIR, "DinoWallpaper.png"))
@@ -89,12 +93,24 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
+OST_MENU =  pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Start_Menu.mp3'))
+OST_MENU.set_volume(0.5)
+
+OST_GAME = pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Game.mp3'))
+OST_GAME.set_volume(0.5)
+
+
 DEFAULT_TYPE = "default"
 
-FONT_STYLE = 'freesansbold.ttf'
+FONT_STYLE = 'chalkduster.ttf'
+FONT_STYLE_2 = 'PressStart2P.ttf'
+
 
 COLORS = {
     'black' : (0,0,0),
-    'white' : (255, 255, 255)
-
+    'white' : (255, 255, 255),
+    'blue' : (0, 0, 255),
+    'silver': (192, 192, 192),
+    'purple': 	(128, 0, 128)
 }
+ 
