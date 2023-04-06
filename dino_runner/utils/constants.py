@@ -94,13 +94,15 @@ BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
 
 OST_MENU =  pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Start_Menu.mp3'))
-OST_MENU.set_volume(0.5)
+OST_MENU.set_volume(0.2)
 
 OST_GAME = pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Game.mp3'))
 OST_GAME.set_volume(0.5)
 
 
 DEFAULT_TYPE = "default"
+SHIELD_TYPE = "shield"
+
 
 FONT_STYLE = 'chalkduster.ttf'
 FONT_STYLE_2 = 'PressStart2P.ttf'
