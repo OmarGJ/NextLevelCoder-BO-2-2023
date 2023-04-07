@@ -1,8 +1,10 @@
+
 import pygame
 import pygame.mixer 
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
-from dino_runner.utils.constants import BG, CLOUD, COLORS, MY_CLOUD, MY_SUN, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, COLORS, RUNNING, OST_MENU, OST_GAME
+from dino_runner.utils.constants import (BG, CLOUD, COLORS, MY_CLOUD, MY_SUN, ICON, 
+                                         SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, COLORS, DINO_START, OST_MENU, OST_GAME, ARC, LARGE_CACTUS, KIRBY1, TITLE_IMG)
 from dino_runner.components.dinosaur import Dinosaur 
 from dino_runner.components.text_utils import TextUtils
 
@@ -16,15 +18,17 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
-        self.game_speed = 20
+        self.game_speed = 16
         self.x_pos_bg = 0
         self.y_pos_bg = 375
         self.x_pos_cloud = SCREEN_WIDTH
         self.y_pos_cloud = 100
         self.x_pos_mycloud = SCREEN_WIDTH
-        self.y_pos_mycloud = 0
+        self.y_pos_mycloud = 130
         self.x_pos_mysun = SCREEN_WIDTH
-        self.y_pos_mysun =  40
+        self.y_pos_mysun =  0
+        self.x_pos_arc = SCREEN_WIDTH
+        self.y_pos_arc = 270
         self.points = 0
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
@@ -85,6 +89,8 @@ class Game:
         self.draw_cloud()
         self.draw_mycloud()
         self.draw_mysun()
+        self.draw_arc()
+        self.draw
         self.score()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
@@ -111,18 +117,23 @@ class Game:
         self.x_pos_cloud -= self.game_speed / 3
  
     def draw_mycloud(self):
-        mycloud_width = MY_CLOUD.get_width()
         self.screen.blit(MY_CLOUD, (self.x_pos_mycloud, self.y_pos_mycloud))
-        self.screen.blit(MY_CLOUD, (mycloud_width + self.x_pos_mycloud, self.y_pos_mycloud))
-        if self.x_pos_mycloud + mycloud_width <= 0:
-            self.screen.blit(MY_CLOUD,(mycloud_width + self.x_pos_mycloud, self.y_pos_mycloud))
-            self.x_pos_mycloud = SCREEN_WIDTH
-        self.x_pos_mycloud -= self.game_speed / 2
+        self.x_pos_mycloud -= self.game_speed / 5
+        if self.x_pos_mycloud <= -MY_CLOUD.get_width():
+         self.x_pos_mycloud = SCREEN_WIDTH
+
+
+    def draw_arc(self):
+        self.screen.blit(ARC, (self.x_pos_arc, self.y_pos_arc))
+        self.x_pos_arc -= self.game_speed / 30
+        if self.x_pos_arc <= -ARC.get_width():
+         self.x_pos_arc = SCREEN_WIDTH
+
 
 
     def draw_mysun(self):
         self.screen.blit(MY_SUN, (self.x_pos_mysun, self.y_pos_mysun))
-        self.x_pos_mysun -= self.game_speed / 10
+        self.x_pos_mysun -= self.game_speed / 14
  
     ##Si el sol sale de la pantalla por la izquierda, reinicia en el lado derecho
         if self.x_pos_mysun <= -MY_SUN.get_width():
@@ -137,7 +148,7 @@ class Game:
 
     def show_menu(self):
         self.game_running = True
-        self.screen.fill(COLORS['blue'])
+        self.screen.fill(COLORS['cyan'])
         self.print_menu_elements()
     
         pygame.display.update()
@@ -158,7 +169,12 @@ class Game:
 
             self.screen.blit(score, score_rect)
             self.screen.blit(death, death_rect)
-        self.screen.blit(RUNNING[0], (half_screen_width - 20, half_screen_height -140))
+        self.screen.blit(DINO_START, (half_screen_width - 200, half_screen_height -140))
+        self.screen.blit(LARGE_CACTUS[2], (half_screen_width - 20, half_screen_height -140))
+        self.screen.blit(KIRBY1[0], (half_screen_width - -40, half_screen_height -280))
+        self.screen.blit(TITLE_IMG, (half_screen_width - -200, half_screen_height -200))
+        self.screen.blit(CLOUD, (half_screen_width - 200, half_screen_height -200))
+        self.screen.blit(MY_CLOUD, (half_screen_width - 400, half_screen_height -200))
 
     def handle_key_event_on_menu(self):
         for event in pygame.event.get():

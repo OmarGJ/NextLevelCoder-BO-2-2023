@@ -8,7 +8,9 @@ pygame.mixer.init()
 TITLE = "Chrome Dino Runner"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
-FPS = 30
+FPS = 45
+
+
 IMG_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 SOUND_DIR = os.path.join(os.path.dirname(__file__), "..", "assets")
 
@@ -29,6 +31,9 @@ RUNNING_HAMMER = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoDuck1Hammer.png")),
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRun2.png")),
 ]
+
+DINO_START = pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoStart.png"))
+
 
 RUNNING_FLASH = [
     pygame.image.load(os.path.join(IMG_DIR, "Dino/DinoRunFlash.png")),
@@ -82,23 +87,38 @@ ZOMBIE = [
 ]
 
 CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/Cloud.png'))
+FISH = pygame.image.load(os.path.join(IMG_DIR, 'other/fish.png'))
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
+ARC =  pygame.image.load(os.path.join(IMG_DIR, 'Other/arc.png'))
+
+SMALL = pygame.image.load(os.path.join(IMG_DIR, 'Other/small.png'))
+SMALL_0 = pygame.image.load(os.path.join(IMG_DIR, 'Other/small0.png'))
+TITLE_IMG = pygame.image.load(os.path.join(IMG_DIR, 'Other/tittle.png'))
 
 MY_SUN = pygame.image.load(os.path.join(IMG_DIR, 'Other/MySun.png'))
 MY_CLOUD = pygame.image.load(os.path.join(IMG_DIR, 'Other/MyCloud.png'))
-KIRBY = pygame.image.load(os.path.join(IMG_DIR, 'Kirby/kirby2.gif'))
+
+KIRBY1 = [
+    pygame.image.load(os.path.join(IMG_DIR, 'Kirby/kirby2.png')),
+    pygame.image.load(os.path.join(IMG_DIR, 'Kirby/kirby22.png'))
+
+]
+KIRBY = pygame.image.load(os.path.join(IMG_DIR, 'Kirby/kirby.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
-HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
+HEARTT = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
+GAME_OVER = pygame.image.load(os.path.join(IMG_DIR, 'Other/GameOver.png'))
 
 OST_MENU =  pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Start_Menu.mp3'))
-OST_MENU.set_volume(0.2)
+OST_MENU.set_volume(0.1)
 
 OST_GAME = pygame.mixer.Sound(os.path.join(SOUND_DIR,'sounds/OST_Game.mp3'))
 OST_GAME.set_volume(0.5)
 
+
+HEART_TYPE = "heart"
 
 DEFAULT_TYPE = "default"
 SHIELD_TYPE = "shield"
@@ -113,6 +133,6 @@ COLORS = {
     'white' : (255, 255, 255),
     'blue' : (0, 0, 255),
     'silver': (192, 192, 192),
-    'purple': 	(128, 0, 128)
+    'purple': 	(128, 0, 128),
+    'cyan': (115, 180, 210)
 }
- 

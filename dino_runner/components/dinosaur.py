@@ -1,6 +1,6 @@
 from pygame.sprite import Sprite
 from dino_runner.utils.constants import (JUMPING_WINGS, RUNNING_FLASH, DUCKING_HORN, RUNNING_SHIELD,
-                                         DUCKING_SHIELD, JUMPING_SHIELD, DEFAULT_TYPE,SHIELD_TYPE)
+                                         DUCKING_SHIELD, JUMPING_SHIELD, DEFAULT_TYPE,SHIELD_TYPE, FONT_STYLE)
 
 import pygame
 
@@ -95,8 +95,10 @@ class Dinosaur(Sprite):
             time_to_show = round((self.shield_time_up - pygame.time.get_ticks()) / 1000, 2)
             if time_to_show >= 0:
                 if self.show_text:
-                    #codigo mostrar tiempo q falta time_to_show
-                    pass
+                    font = pygame.font.Font(FONT_STYLE, 22)
+                text = font.render("Shield Time: " + str(time_to_show), True, (68, 30, 80))
+                screen.blit(text, (10, 10))
+        
             else:
                 self.shield = False
                 self.update_to_default(SHIELD_TYPE)
